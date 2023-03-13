@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Json Data to Html</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <script src="jquery.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <style>
+        body {
+            background-color: #b9936c;
+            justify-content: center;
+            display: grid;
+        }
+
+        .form-group {
+            padding: 20px
+        }
+
+        .container {
+            margin: 40px;
+            background-color: #dac292;
+        }
+
+        .form-inline .form-group {
+            padding: 10px;
+        }
+
+    </style>
+    <script>
+        var jsonData = [{
+            "empId": 1,
+            "empName": "Ahmad",
+            "empAge": 25,
+            "empSalary": 450,
+            "empLang": "JavaScript",
+            "empExp": "3 years"
+        }, {
+            "empId": 2,
+            "empName": "Ali",
+            "empAge": 28,
+            "empSalary": 550,
+            "empLang": "Java",
+            "empExp": "3.5 years"
+        }
+        ]
+        $(function () {
+            $.each(jsonData, function (index, item) {
+                var row = "<tr>"
+                row += "<th scope='row'>" + item.empId + "</th>"
+                row += "<td>" + item.empName + "</td>"
+                row += "<td>" + item.empAge + "</td>"
+                row += "<td>" + item.empSalary + "</td>"
+                row += "<td>" + item.empLang + "</td>"
+                row += "<td>" + item.empExp + "</td>"
+                row += "<td>" + "<button type='button'  class='btn btn-danger btnDelete'onclick='deleteRecord(this)'>Delete</button>" + "</td></tr>"
+                $("#bodyFill").append(row);
+            })
+            $("#btnAdd").click(function () {
+                addRecord();
+                alert(JSON.stringify(jsonData));
+            })
+        })
+
+        function addRecord() {
+
+            var empId = $("#empId").val();
+            var empName = $("#empName").val();
+            var empAge = $("#empAge").val();
+            var empSalary = $("#empSalary").val();
+            var empLang = $("#empLang").val();
+            var empExp = $("#empExp").val();
+
+            var newRecord = {
+                "empId": empId,
+                "empName": empName,
+                "empAge": empAge,
+                "empSalary": empSalary,
+                "empLang": empLang,
+                "empExp": empExp
+            };
+            jsonData.push(newRecord);
+            var row;
+            row += "<tr><th scope='row'>" + empId + "</th>"
+            row += "<td>" + empName + "</td>"
+            row += "<td>" + empAge + "</td>"
+            row += "<td>" + empSalary + "</td>"
+            row += "<td>" + empLang + "</td>"
+            row += "<td>" + empExp + "</td>"
+            row += "<td>" + "<button type='button'  class='btn btn-danger btnDelete' onclick='deleteRecord(this)'>Delete</button>" + "</td></tr>"
+            $("#bodyFill").append(row);
+        }
+        function deleteRecord(btn) {
+            var parentTr = $(btn).closest('tr');
+            parentTr.remove();
+
+            var index = $("#bodyFill tr").index(parentTr); 
+            jsonData.splice(index, 1);            
+            alert(JSON.stringify(jsonData));            
+        }
+    </script>
+</head>
+<body>
+    <h2>You can add or delete a row and it will be modified to the JSON data as well</h2>
+    <div class="container">
+        <div class="form-inline">
+            <div class="form-group">
+                <label for="text">Empolyee Id:</label>
+                <input type="text" class="form-control" id="empId" placeholder="Enter Empolyee Id" name="text">
+            </div>
+            <div class="form-group">
+                <label for="text">Empolyee Name:</label>
+                <input type="text" class="form-control" id="empName" placeholder="Enter Empolyee Name" name="text">
+            </div>
+            <div class="form-group">
+                <label for="text">Employee Age:</label>
+                <input type="text" class="form-control" id="empAge" placeholder="Enter Employee Age" name="text">
+            </div>
+            <div class="form-group">
+                <label for="text">Employee Salary:</label>
+                <input type="text" class="form-control" id="empSalary" placeholder="Enter Employee Salary" name="text">
+            </div>
+            <div class="form-group">
+                <label for="text">Employee Language:</label>
+                <input type="text" class="form-control" id="empLang" placeholder="Enter Employee Language" name="text">
+            </div>
+            <div class="form-group">
+                <label for="text">Employee experience:</label>
+                <input type="text" class="form-control" id="empExp" placeholder="Enter Employee Experience" name="text">
+            </div>
+            <button id="btnAdd" class="btn btn-success">Add Row</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Empolyee Id</th>
+                            <th scope="col">Empolyee Name</th>
+                            <th scope="col">Empolyee Age</th>
+                            <th scope="col">Empolyee Salary</th>
+                            <th scope="col">Empolyee Language</th>
+                            <th scope="col">Empolyee Experience</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bodyFill">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
